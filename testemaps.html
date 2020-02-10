@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Attach a popup to a marker instance</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css" rel="stylesheet" />
+<style>
+	body { margin: 0; padding: 0; }
+	#map { position: absolute; top: 0; bottom: 0; width: 100%; };
+</style>
+</head>
+<body>
+<style>
+  #marker {
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    width: 39px;
+    height: 39px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: linear-gradient(144.85deg, #D64848 13.74%, #F56B6B 93.64%);
+  }
+  #marker2 {
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    width: 39px;
+    height: 39px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: linear-gradient(143.64deg, #46A95C 12.58%, #91C79D 94.56%);
+  }
+  #marker3 {
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    width: 39px;
+    height: 39px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: linear-gradient(146.49deg, #E79D47 9.72%, #E4BD8F 91.83%);
+  }
+  #marker4 {
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    width: 39px;
+    height: 39px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: linear-gradient(146.82deg, #DABC1D 35.87%, #D6CC9B 93.41%);
+  }
+
+  #marker5 {
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    width: 39px;
+    height: 39px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: linear-gradient(147.34deg, #93A54E 18.87%, #B7C093 94.99%);
+  }
+
+
+  .mapboxgl-popup {
+      max-width: 200px;
+  }
+
+      /* The sidebar menu */
+  .sidenav {
+    height: 1024px; /* Full-height: remove this if you want "auto" height */
+    width: 268px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 10;
+    background-color: #FFFFFF; 
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 277px;
+    box-shadow: 5px 4px 9px rgba(0, 0, 0, 0.25);
+    box-sizing: ;
+  }
+
+  /* The navigation menu links */
+  .sidenav a {
+    padding: 6px 8px 6px 16px;
+    line-height: 21px;
+    width: 201px;
+    padding-left: 38px;
+    text-align: center;
+    text-decoration: none;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    color: #000000;
+    display: block;
+    box-shadow: 5px 2px 5px rgba(0,0,0,0.15);
+  }
+
+  .sidenav a:hover {
+    box-sizing: 1px 1px 1px;
+    box-shadow: 5px 2px 5px rgba(0,0,0,0.5);
+  }
+  /* Rectangle 17 */
+  .navbar {
+  
+    position: absolute;
+    width: 1440px;
+    height: 45px;
+    left: 0px;
+    top: 979px;
+
+    background: #FFFFFF;
+    opacity: 0.7;
+  }
+</style>
+
+<div id="map"></div>
+
+<div class="sidenav">
+    <a href="#">Pontos de medição</a>
+    <br></br>
+    <a href="#">Como é feita a medição?</a>
+    <br></br>
+    <a href="#">Saiba mais sobre o projeto</a>
+    <!-- <a href="#">Contact</a> -->
+</div>
+<div class="navbar">
+    <!-- <a href="#home" class="active">Qualidade</a> -->
+    <li><a>Nível de qualidade: </a>
+        <a>Ótimo</a>
+        <a>Bom</a>
+        <a>Médio</a>
+        <!-- <a>Ruim</a>
+        <a>Péssimo</a> -->
+    </li>
+    <!-- <a href="#contact">Contact</a> -->
+  
+</div>
+  
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoibGl2ZXByb2plY3RzIiwiYSI6ImNrNWZra2RibjBncmgzcHBiMzd2amwyYm8ifQ.e5X4oBHOzSzJ-2z3zKwPyw';
+    var monument = [-34.959, -8.0482]
+    var posix = [-34.956, -8.0480];
+    var posix2 = [-34.940, -8.0474];
+    var posix3 = [-34.951, -8.0470];
+    var posix4 = [-34.959, -8.0467];
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/light-v10',
+        center: monument,
+        zoom: 16.15
+    });
+
+    // create the popup
+    // var popup = new mapboxgl.Popup({ offset: 25 }).setText(
+    //     'Qualidade do ar: AR MUITO BOM'
+    // );
+/*
+.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+        .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
+*/
+    // create DOM element for the marker
+    var el = document.createElement('div');
+    el.id = 'marker2';
+    var el2 = document.createElement('div');
+    el2.id = 'marker';
+    var el1 = document.createElement('div');
+    el1.id = 'marker3';
+    var el3 = document.createElement('div');
+    el3.id = 'marker4';
+    var el4 = document.createElement('div');
+    el4.id = 'marker5';
+    // create the marker
+    new mapboxgl.Marker(el)
+        .setLngLat(monument)
+        .setPopup(new mapboxgl.Popup({ offset: 25 }) // sets a popup on this marker
+            .setHTML('<h3>' + 'marker.properties.title' + '</h3><p>' + 'marker.properties.description' + '</p>')
+        )
+        .addTo(map);
+    new mapboxgl.Marker(el2)
+        .setLngLat(posix)
+        .setPopup(new mapboxgl.Popup({ offset: 25 }) // sets a popup on this marker
+            .setHTML('<h3>' + 'marker.properties.title' + '</h3><p>' + 'marker.properties.description' + '</p>')
+        )
+        .addTo(map);    
+    new mapboxgl.Marker(el1)
+        .setLngLat(posix2)
+        .setPopup(new mapboxgl.Popup({ offset: 25 }) // sets a popup on this marker
+            .setHTML('<h3>' + 'marker.properties.title' + '</h3><p>' + 'marker.properties.description' + '</p>')
+        )
+        .addTo(map); 
+    new mapboxgl.Marker(el3)
+        .setLngLat(posix3)
+        .setPopup(new mapboxgl.Popup({ offset: 25 }) // sets a popup on this marker
+            .setHTML('<h3>' + 'marker.properties.title' + '</h3><p>' + 'marker.properties.description' + '</p>')
+        )
+        .addTo(map); 
+    new mapboxgl.Marker(el4)
+        .setLngLat(posix4)
+        .setPopup(new mapboxgl.Popup({ offset: 25 }) // sets a popup on this marker
+            .setHTML('<h3>' + 'marker.properties.title' + '</h3><p>' + 'marker.properties.description' + '</p>')
+        )
+        .addTo(map);         
+</script>
+
+</body>
+</html>
